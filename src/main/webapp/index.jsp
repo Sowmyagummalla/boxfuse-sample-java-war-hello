@@ -80,7 +80,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Rajinikanth-BlickIT</h1>
+        <h1>JENKINS-TOMCAT-BlickIT</h1>
     </div>
     <div class="search-container">
         <input type="text" placeholder="Search for products...">
