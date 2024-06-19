@@ -80,7 +80,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>JENKINS-TOMCAT25-BlickIT</h1>
+        <h1>JENKINS-TOMCAT-BlickIT</h1>
     </div>
     <div class="search-container">
         <input type="text" placeholder="Search for products...">
@@ -92,7 +92,7 @@
             <img src="https://via.placeholder.com/150" alt="Fruit">
             <h3>Fruits</h3>
             <p>List of fruits...</p>
-            <a href="#" class="add-to-cart">Add to Cart</a>
+            <a href="#" class="add-to-cart">SELECT YOUR LIST</a>
         </div>
         <!-- Repeat for other categories -->
     </div>
