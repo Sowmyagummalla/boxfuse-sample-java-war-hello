@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage("GIT checkout") {
             steps {
-                git branch: 'master', url: 'https://github.com/Naresh-IT-9AM/rajinikanth-devops-kitchen.git'
+                git branch: 'master', url: 'https://github.com/Sowmyagummalla/boxfuse-sample-java-war-hello.git'
             }
         }
         
