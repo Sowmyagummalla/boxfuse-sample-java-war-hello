@@ -26,14 +26,14 @@ pipeline {
                         def localWarFile = 'target/boxfuse-sample-java-war-hello.war'
 
                         // Copy the WAR file to a temporary directory on the remote server
-                        sh "scp -o StrictHostKeyChecking=no ${localWarFile} ubuntu@13.233.132.109:${remoteTempDir}"
+                        sh "scp -o StrictHostKeyChecking=no ${localWarFile} ubuntu@34.202.231.242:${remoteTempDir}"
 
                         // Move the WAR file from the temporary directory to the final directory using sudo
-                        sh "ssh ubuntu@13.233.132.109 'sudo mv ${remoteTempDir}boxfuse-sample-java-war-hello.war ${remoteDir}'"
+                        sh "ssh ubuntu@34.202.231.242 'sudo mv ${remoteTempDir}boxfuse-sample-java-war-hello.war ${remoteDir}'"
 
                         // Shutdown and then startup Tomcat on the remote server
-                        sh "ssh ubuntu@13.233.132.109 'sudo ${remoteShutdownScript}'"
-                        sh "ssh ubuntu@13.233.132.109 'sudo ${remoteStartupScript}'"
+                        sh "ssh ubuntu@34.202.231.242 'sudo ${remoteShutdownScript}'"
+                        sh "ssh ubuntu@34.202.231.242 'sudo ${remoteStartupScript}'"
                     }
                 }
             }
