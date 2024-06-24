@@ -12,6 +12,12 @@ pipeline {
                     checkout([$class: 'GitSCM', branches: [[name: branchName]], userRemoteConfigs: [[url: 'https://github.com/Sowmyagummalla/boxfuse-sample-java-war-hello.git']]])
                 }
             }
+         }
+        stage("Testing") {
+            steps {
+                echo "Test Runs"
+            
+            }
         }
         stage("Build") {
             steps {
