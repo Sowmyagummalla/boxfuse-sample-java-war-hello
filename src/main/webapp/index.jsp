@@ -1,105 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajinikanth-BlickIT</title>
+    <title>Rajinikanth Cloud DevOps Kitchen+1</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            text-align: left;
-        }
-        .header h1 {
-            margin: 0;
-        }
-        .search-container {
             text-align: center;
-            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        .search-container input[type="text"] {
-            width: 50%;
-            padding: 10px;
-            margin-right: 10px;
-            border: none;
-            border-radius: 5px;
+
+        h1 {
+            color: #d9534f;
         }
-        .search-container input[type="submit"] {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #5cb85c;
-            color: white;
+
+        h2 {
+            color: #5bc0de;
+        }
+
+        .menu-item {
             cursor: pointer;
-        }
-        .products {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding: 20px;
-        }
-        .product {
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
             padding: 10px;
-            width: 30%;
-            background-color: #fff;
-        }
-        .product img {
-            max-width: 100%;
-            height: auto;
-        }
-        .product h3 {
-            text-align: center;
-        }
-        .add-to-cart {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 5px;
             display: inline-block;
-            margin-top: 10px;
-        }
-        .footer {
-            background-color: #333;
+            background-color: #5bc0de;
             color: #fff;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            border-radius: 5px;
+        }
+
+        #sub-items {
+            margin-top: 20px;
+        }
+
+        #sub-items h3 {
+            color: #5cb85c;
+        }
+
+        .sub-item {
+            padding: 8px;
+            margin: 5px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .menu-item img, .sub-item img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 5px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>JENKINS-TOMCAT-ZEPTO</h1>
-    </div>
-    <div class="search-container">
-        <input type="text" placeholder="Search for products...">
-        <input type="submit" value="Search">
-    </div>
-    <div class="products">
-        <!-- Example product -->
-        <div class="product">
-            <img src="https://via.placeholder.com/150" alt="Fruit">
-            <h3>Fruits</h3>
-            <p>List of fruits...</p>
-            <a href="#" class="add-to-cart">SELECT YOUR LIST</a>
+    <h1>Welcome to Rajinikanth Jenkins Final changes QA Branch </h1>
+    <h2>Menu</h2>
+
+    <div id="menu">
+        <div class="menu-item" onclick="showSubItems('Biryani')">
+            <img src="https://example.com/biryani.jpg" alt="Biryani">
+            Biryani
         </div>
-        <!-- Repeat for other categories -->
+        <div class="menu-item" onclick="showSubItems('Curries')">
+            <img src="https://example.com/curries.jpg" alt="Curries">
+            Curries
+        </div>
+        <div class="menu-item" onclick="showSubItems('Pizzas')">
+            <img src="https://example.com/pizzas.jpg" alt="Pizzas">
+            Pizzas
+        </div>
+        <div class="menu-item" onclick="showSubItems('Starters')">
+            <img src="https://example.com/starters.jpg" alt="Starters">
+            Starters
+        </div>
     </div>
-    <div class="footer">
-        <p>Pay with Paytm using the number: [Your-Paytm-Number]</p>
-        <p>Or scan the QR code:</p>
-        <img src="https://via.placeholder.com/100" alt="Paytm QR Code">
-    </div>
+
+    <div id="sub-items"></div>
+
+    <script>
+        function showSubItems(category) {
+            var subItems = {
+                Biryani: ['Chicken Biryani', 'Mutton Biryani', 'Veg Biryani'],
+                Curries: ['Butter Chicken', 'Palak Paneer', 'Chana Masala'],
+                Pizzas: ['Margherita', 'Pepperoni', 'BBQ Chicken'],
+                Starters: ['Paneer Tikka', 'Chicken 65', 'Spring Rolls']
+            };
+
+            var itemsList = subItems[category].map(function(item) {
+                return '<div class="sub-item">' + 
+                            '<img src="https://example.com/' + item.toLowerCase().replace(/ /g, '-') + '.jpg" alt="' + item + '">' + 
+                            item + 
+                        '</div>';
+            }).join('');
+
+            document.getElementById('sub-items').innerHTML = '<h3>' + category + '</h3>' + itemsList;
+        }
+    </script>
 </body>
 </html>
