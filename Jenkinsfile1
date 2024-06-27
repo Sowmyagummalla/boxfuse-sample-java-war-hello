@@ -1,51 +1,36 @@
 pipeline {
-    agent any
-
-    stages {
-        stage("GIT checkout") {
-            steps {
-                git branch: 'master', url: 'https://github.com/Sowmyagummalla/boxfuse-sample-java-war-hello.git'
+      agent any
+      
+      stages{
+            stage("GIT checkout"){
+            steps{
+                 git 'https://github.com/RAJANI9/boxfuse-sample-java-war-hello.git'
+              }
             }
-        }
-        
-        stage("build") {
-            steps {
-                sh "mvn clean package"
-                sh "mv target/*.war target/boxfuse-sample-java-war-hello.war"
+            stage("build"){
+                  steps{
+                       sh "mvn clean package"
+                       sh "mv target/*.war target/boxfuse-sample-java-war-hello.war"
+                      }
+                       
             }
-        }
-        
-        stage("deploy") {
-            steps {
-                script {
-                    sshagent(['NewTomcat']) {
-                        def remoteDir = '/home/ubuntu/apache-tomcat-9.0.84/webapps/'
-                        def remoteTempDir = '/tmp/'
-                        def remoteShutdownScript = '/home/ubuntu/apache-tomcat-9.0.84/bin/shutdown.sh'
-                        def remoteStartupScript = '/home/ubuntu/apache-tomcat-9.0.84/bin/startup.sh'
-                        def localWarFile = 'target/boxfuse-sample-java-war-hello.war'
-
-                        // Copy the WAR file to a temporary directory on the remote server
-                        sh "scp -o StrictHostKeyChecking=no ${localWarFile} ubuntu@34.202.231.242:${remoteTempDir}"
-
-                        // Move the WAR file from the temporary directory to the final directory using sudo
-                        sh "ssh ubuntu@34.202.231.242 'sudo mv ${remoteTempDir}boxfuse-sample-java-war-hello.war ${remoteDir}'"
-
-                        // Shutdown and then startup Tomcat on the remote server
-                        sh "ssh ubuntu@34.202.231.242 'sudo ${remoteShutdownScript}'"
-                        sh "ssh ubuntu@34.202.231.242 'sudo ${remoteStartupScript}'"
-                    }
-                }
-            }
-        }
-    }
+             stage("depoly"){
+                  steps{
+                     
+                       
+                       sshagent(['TOMCAT']) {
+                       
+                       sh """
+                            scp -o StrictHostKeyChecking=no  target/boxfuse-sample-java-war-hello.war ubuntu@13.201.72.89:/home/ubuntu/apache-tomcat-9.0.87/webapps/
+                            
+                            ssh ubuntu@13.201.72.89 /home/ubuntu/apache-tomcat-9.0.87/bin/shutdown.sh
+                            ssh ubuntu@13.201.72.89 /home/ubuntu/apache-tomcat-9.0.87/bin/startup.sh
+                            
+                          """
     
-    post {
-        success {
-            echo 'Deployment successful!'
-        }
-        failure {
-            echo 'Deployment failed. Check logs and server settings.'
-        }
-    }
 }
+                      
+                       }
+            }
+       }
+  }     
