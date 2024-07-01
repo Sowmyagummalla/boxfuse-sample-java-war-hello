@@ -11,7 +11,7 @@
 
     <properties>
         <docker.image.prefix>kammana</docker.image.prefix>
-        <sonar.host.url>http://52.66.204.59:9000/</sonar.host.url>
+        <sonar.host.url>http://34.200.216.226:9000/</sonar.host.url>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
