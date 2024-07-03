@@ -6,7 +6,7 @@ pipeline {
         NEXUS_CREDENTIALS_ID = 'nexus-id'
         TOMCAT_SERVER = '34.200.231.91'
         TOMCAT_CREDENTIALS_ID = 'ssh-agent'
-        TOMCAT_DEPLOY_PATH = '/home/ubuntu/apache-tomcat-9.0.90/webapps'
+        TOMCAT_DEPLOY_PATH = '/home/ubuntu/tomcat/apache-tomcat-9.0.90/webapps'
         WAR_FILE_NAME = 'hello-1.0.1.war'
     }
 
@@ -17,7 +17,7 @@ pipeline {
                     def warFilePath = "${env.WORKSPACE}/${WAR_FILE_NAME}"
                     def artifactUrl = "${NEXUS_URL}/${WAR_FILE_NAME}"
 
-                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'admin', passwordVariable: 'sowmya')]) {
+                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                         sh """
                         curl -u ${NEXUS_USER}:${NEXUS_PASS} -o ${warFilePath} ${artifactUrl}
                         """
@@ -28,10 +28,11 @@ pipeline {
 
         stage('Deploy WAR to Tomcat') {
             steps {
-                sshagent(['ssh-agent']) {
+                sshagent([TOMCAT_CREDENTIALS_ID]) {
                     sh """
-                    scp hello-1.0.1.war ubuntu@34.200.231.91:/home/ubuntu/apache-tomcat-9.0.90/webapps/
-                    ssh ubuntu@34.200.231.91 'systemctl restart tomcat'
+                    ssh-keyscan -H ${TOMCAT_SERVER} >> ~/.ssh/known_hosts
+                    scp ${WAR_FILE_NAME} ubuntu@${TOMCAT_SERVER}:${TOMCAT_DEPLOY_PATH}
+                    ssh ubuntu@34.200.231.91 'sh /home/ubuntu/tomcat/apache-tomcat-9.0.90/bin/startup.sh'
                     """
                 }
             }
