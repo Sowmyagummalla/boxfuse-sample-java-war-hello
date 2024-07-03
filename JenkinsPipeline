@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label'Tomcat-node'}
 
     environment {
         NEXUS_URL = 'http://34.239.226.135:8081/repository/sample-release/'
