@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    environment {
+        NEXUS_URL = 'http://34.239.226.135:8081/repository/sample-release/'
+        NEXUS_CREDENTIALS_ID = 'nexus-id'
+        TOMCAT_SERVER = '34.200.231.91'
+        TOMCAT_CREDENTIALS_ID = 'ssh-agent'
+        TOMCAT_DEPLOY_PATH = '/home/ubuntu/apache-tomcat-9.0.90/webapps'
+        WAR_FILE_NAME = 'hello-1.0.1.war'
+    }
+
+    stages {
+        stage('Download WAR from Nexus') {
+            steps {
+                script {
+                    def warFilePath = "${env.WORKSPACE}/${WAR_FILE_NAME}"
+                    def artifactUrl = "${NEXUS_URL}/${WAR_FILE_NAME}"
+
+                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS_ID, usernameVariable: 'admin', passwordVariable: 'sowmya')]) {
+                        sh """
+                        curl -u ${NEXUS_USER}:${NEXUS_PASS} -o ${warFilePath} ${artifactUrl}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Deploy WAR to Tomcat') {
+            steps {
+                sshagent(['ssh-agent']) {
+                    sh """
+                    scp hello-1.0.1.war ubuntu@34.200.231.91:/home/ubuntu/apache-tomcat-9.0.90/webapps/
+                    ssh ubuntu@34.200.231.91 'systemctl restart tomcat'
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
